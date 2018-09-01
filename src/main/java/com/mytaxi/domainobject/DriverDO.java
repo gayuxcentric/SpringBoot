@@ -1,32 +1,36 @@
 package com.mytaxi.domainobject;
 
-import com.mytaxi.domainvalue.GeoCoordinate;
-import com.mytaxi.domainvalue.OnlineStatus;
 import java.time.ZonedDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.mytaxi.domainvalue.GeoCoordinate;
+import com.mytaxi.domainvalue.OnlineStatus;
 
 @Entity
 @Table(
     name = "driver",
-    uniqueConstraints = @UniqueConstraint(name = "uc_username", columnNames = {"username"})
+    uniqueConstraints = @UniqueConstraint(name = "uc_userName", columnNames = {"username"})
 )
 public class DriverDO
 {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+		
     @Column(nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private ZonedDateTime dateCreated = ZonedDateTime.now();
@@ -54,7 +58,7 @@ public class DriverDO
     private OnlineStatus onlineStatus;
 
 
-    private DriverDO()
+    public DriverDO()
     {
     }
 

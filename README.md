@@ -31,20 +31,28 @@ You should commit into your local git repository and include the commit history 
 ## Task 1
  * Write a new Controller for maintaining cars (CRUD).
    * Decide on your own how the methods should look like.
-   * Entity Car: Should have at least the following characteristics: license_plate, seat_count, convertible, rating, engine_type (electric, gas, ...)
-   * Entity Manufacturer: Decide on your own if you will use a new table or just a string column in the car table.
+   * Entity Car: Should have at least the following characteristics license_plate: , seat_count, convertible, rating, engine_type (electric, gas, ...)
+ * Entity Manufacturer: Decide on your own if you will use a new table or just a string column in the car table.
  * Extend the DriverController to enable drivers to select a car they are driving with.
  * Extend the DriverController to enable drivers to deselect a car.
  * Extend the DriverDo to map the selected car to the driver.
  * Add example data to resources/data.sql
 
----
+--- 1) CarDetailsController - Allows the user to perform CRUD Operations
+2)DriveController :
+deSelectCarByDriver - Enables the ONLINE driver to deselect the car which he has selected before
+SelectCarByDriver - Enables the ONLINE driver to select the car
+Have used DriverCarSelectionDetailsDO (Entity) to log all driver & selected car details
+So that we cant concurrent selection as well.
+1)No two different ONLINE drivers cant book a car eventhough they initiate the request at the same time
+unique index violation avoids this concurrent scenario
+2)Online Driver cant book same car at the same time..
 
 
 ## Task 2
 First come first serve: A car can be selected by exactly one ONLINE Driver. If a second driver tries to select a already used car you should throw a CarAlreadyInUseException.
 
----
+--- Implemented using by introducing a new intermittant table approach
 
 
 ## Task 3
@@ -54,7 +62,9 @@ Imagine a driver management frontend that is used internally by mytaxi employees
 * driver/car attributes as input parameters
 * return list of drivers
 
----
+1)searchDriverByDriverAttributes - Allows the user to search driver details based on driver attributes'
+2)searchDriverByCarAttributes - Allows the user to select driver details based on the car attributes'
+driver details can be fetched based on his opted car.
 
 
 ## Task 4 (optional)
@@ -62,8 +72,8 @@ This task is _voluntarily_, if you can't get enough of hacking tech challenges, 
 Secure the API so that authentication is needed to access it. The details are up to you.
 
 Please include instructions how to authenticate/login, so that we can test the endpoints you implemented!
-
----
+--- Working on the solution. Due to deadline. I`m submitting the existing code.
+Will submit the solution using Oath implementation 
 
 
 Good luck!

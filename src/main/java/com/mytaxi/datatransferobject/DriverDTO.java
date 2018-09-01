@@ -1,10 +1,12 @@
 package com.mytaxi.datatransferobject;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mytaxi.domainvalue.GeoCoordinate;
-import javax.validation.constraints.NotNull;
+import com.mytaxi.domainvalue.OnlineStatus;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DriverDTO
@@ -12,26 +14,37 @@ public class DriverDTO
     @JsonIgnore
     private Long id;
 
-    @NotNull(message = "Username can not be null!")
+   // @NotNull(message = "Username can not be null!")
     private String username;
 
-    @NotNull(message = "Password can not be null!")
+    //@NotNull(message = "Password can not be null!")
     private String password;
 
     private GeoCoordinate coordinate;
 
+    @JsonProperty("car")
+    private CarDTO carDTO;
+    
+    private OnlineStatus onlineStatus;
 
-    private DriverDTO()
+
+	public DriverDTO()
     {
     }
 
-
-    private DriverDTO(Long id, String username, String password, GeoCoordinate coordinate)
+	public void setCarDTO(CarDTO carDTO)
+	 {
+	   this.carDTO = carDTO;
+	 }
+	
+	
+    private DriverDTO(Long id, String username, String password, GeoCoordinate coordinate,CarDTO carDTO,OnlineStatus onlineStatus)
     {
         this.id = id;
         this.username = username;
         this.password = password;
         this.coordinate = coordinate;
+        this.onlineStatus = onlineStatus;
     }
 
 
@@ -65,12 +78,24 @@ public class DriverDTO
         return coordinate;
     }
 
-    public static class DriverDTOBuilder
+
+    public CarDTO getCarDTO() {
+		return carDTO;
+	}
+    
+    public OnlineStatus getOnlineStatus() {
+		return onlineStatus;
+	}
+
+	
+	public static class DriverDTOBuilder
     {
         private Long id;
         private String username;
         private String password;
         private GeoCoordinate coordinate;
+        private CarDTO carDTO;
+        private OnlineStatus onlineStatus;
 
 
         public DriverDTOBuilder setId(Long id)
@@ -100,10 +125,21 @@ public class DriverDTO
             return this;
         }
 
+ 
+    	public DriverDTOBuilder setCarDTO(CarDTO carDTO) {
+    		this.carDTO = carDTO;
+    		return this;
+    	}
+    	
+    	public DriverDTOBuilder setOnlineStatus(OnlineStatus onlineStatus) {
+    		this.onlineStatus = onlineStatus;
+    		return this;
+    	}
 
+    	
         public DriverDTO createDriverDTO()
         {
-            return new DriverDTO(id, username, password, coordinate);
+            return new DriverDTO(id, username, password, coordinate,carDTO,onlineStatus);
         }
 
     }
